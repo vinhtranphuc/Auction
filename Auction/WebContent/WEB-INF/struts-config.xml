@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts 
+Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
+<struts-config>
+	<form-beans>
+		<form-bean name="nguoiDungForm" type="form.NguoiDungForm" />
+		<form-bean name="danhSachSinhVienForm" type="form.DanhSachSinhVienForm" />
+		<form-bean name="sinhVienForm" type="form.SinhVienForm" />
+	</form-beans>
+	<action-mappings>
+		<action input="/dangNhap.jsp" name="nguoiDungForm"
+			path="/dang-nhap" scope="request" type="action.NguoiDungAction">
+			<forward name="thanhCong" path="/danh-sach.do" redirect="true"/>
+			<forward name="thatBai" path="/dangNhap.jsp" />
+		</action>
+		<action input="/dangNhap.jsp" name="danhSachSinhVienForm"
+			path="/danh-sach" scope="request" type="action.DanhSachSinhVienAction">
+			<forward name="dsSinhVien" path="/danhSachSinhVien.jsp" />
+		</action>
+		<action input="/themSinhVien.jsp" name="sinhVienForm"
+			path="/themSV" scope="request" type="action.ThemSinhVienAction" validate="true">
+			<forward name="themSV" path="/themSinhVien.jsp" />
+			<forward name="themSVerror" path="/themSinhVien.jsp" />
+			<forward name="themSVxong" path="/danh-sach.do" redirect="true"/>
+		</action>
+		<action input="/suaSinhVien.jsp" name="sinhVienForm"
+			path="/suaSV" scope="request" type="action.SuaSinhVienAction">
+			<forward name="suaSV" path="/suaSinhVien.jsp" />
+			<forward name="suaSVxong" path="/danh-sach.do" redirect="true" />
+		</action>
+		<action input="/dangNhap.jsp" name="sinhVienForm"
+			path="/xoaSV" scope="request" type="action.XoaSinhVienAction">
+			<forward name="xoaSV" path="/xoaSinhVien.jsp" />
+			<forward name="xoaSVxong" path="/danh-sach.do" redirect="true"/>
+		</action>
+	</action-mappings>
+	<message-resources parameter="action.ApplicationResources" />
+	
+</struts-config>
