@@ -1,4 +1,11 @@
-package common; 
+package common;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
+
+import model.bean.AuctionCouponBean;
+import net.sf.json.JSONArray;
 
 /**
  * StringProcess.java
@@ -12,53 +19,19 @@ package common;
  * Modification Logs:
  * DATE                 AUTHOR          DESCRIPTION
  * -----------------------------------------------------------------------
- * Jan 20, 2015        	DaiLV2          Create
+ * Jan 20, 2015        	VinhTP1          Create
  */
 
 public class StringProcess {
+
+	public static String currentTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0").format(Calendar.getInstance().getTime());
 	
-	/**
-	 * Ham tra ve gioi tinh: 1=Nam, 0=Nu
-	 * @param val
-	 * @return String
-	 */
-	public static String gioiTinh(String val) {
-		if("0".equals(val)){
-			return "Nữ";
-		}
-		return "Nam";
+	public static String toJSONArrayString(Object arrayList){
+		
+		JSONArray jsonArray = JSONArray.fromObject(arrayList);
+		
+		return jsonArray.toString();
 	}
 	
-	/**
-	 * Ham in ra mot xau, null in ra xau rong
-	 * @param s
-	 * @return String
-	 */
-	public static String getVaildString(String s) {
-		if(s==null) return "";
-		return s;
-	}
-	
-	/**
-	 * Ham kiem tra xau rong hay khong
-	 * @param s
-	 * @return boolean
-	 */
-	public static boolean notVaild(String s){
-		if(s==null || s.length()==0) return true;
-		return false;
-	}
-	
-	/**
-	 * Ham kiem tra xem xau co bao gom chi chu so hay khong
-	 * @param s
-	 * @return boolean
-	 */
-	public static boolean notVaildNumber(String s){
-		if(notVaild(s)) return true;
-		String regex = "[0-9]+"; 
-		if(s.matches(regex)) return false;
-		return true;
-	}
 }
 
