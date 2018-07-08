@@ -2,9 +2,7 @@ package common;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.List;
 
-import model.bean.AuctionCouponBean;
 import net.sf.json.JSONArray;
 
 /**
@@ -12,14 +10,14 @@ import net.sf.json.JSONArray;
  *
  * Version 1.0
  *
- * Date: Jan 20, 2015
+ * Date: Jul 5, 2018
  *
  * Copyright 
  *
  * Modification Logs:
  * DATE                 AUTHOR          DESCRIPTION
  * -----------------------------------------------------------------------
- * Jan 20, 2015        	VinhTP1          Create
+ * Jul 5, 2018        	Vinh          	Create
  */
 
 public class StringProcess {

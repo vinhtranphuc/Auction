@@ -28,7 +28,7 @@ public class AuctionCouponDAO extends ConnectMySQL {
 				auctionCouponBean.setProductID(rs.getString("PRODUCT_ID"));
 				auctionCouponBean.setStartingPrice(rs.getString("STARTING_PRICE"));
 				auctionCouponBean.setHighestPrice("");
-				auctionCouponBean.setName(rs.getString("NAME"));
+				auctionCouponBean.setMemberName(rs.getString("NAME"));
 				auctionCouponBean.setMemberID(rs.getString("MEMBER_ID"));
 				auctionCouponBean.setStepPrice(rs.getString("STEP_PRICE"));
 				auctionCouponBean.setStartTime(rs.getString("START_TIME"));

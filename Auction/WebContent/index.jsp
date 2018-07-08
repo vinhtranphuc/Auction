@@ -1,1 +1,1 @@
-<jsp:forward page="/auctionCouponList.do"></jsp:forward>
+<jsp:forward page="/login.do"></jsp:forward>

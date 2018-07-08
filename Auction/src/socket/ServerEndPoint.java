@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnError;
@@ -14,26 +15,38 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 
 import common.StringProcess;
+import config.PrincipalWithSession;
 import model.bo.AuctionCouponBO;
 
 @ServerEndpoint(value = "/ServerEndPoint")
 public class ServerEndPoint {
 	
-	AuctionCouponBO auctionCouponBO = new AuctionCouponBO();
+	// http session
+	private HttpSession httpSession;
 	
-	static Set<Session> allSession = Collections.synchronizedSet(new HashSet<>());
+	// web socket sessions
+	static Set<Session> allWebSocketSession = Collections.synchronizedSet(new HashSet<>());
+	
+	// auctionCouponBO
+	private AuctionCouponBO auctionCouponBO;
 
 	@OnOpen
-	public void handleOpen(Session session) throws IOException {
+	public void handleOpen(Session webSocketSession) throws IOException {
 		
-		allSession.add(session);
+		// get http session form web socket
+		httpSession = ((PrincipalWithSession) webSocketSession.getUserPrincipal()).getSession();
+		
+		System.out.println("ServerEndPoint session userName: "+httpSession.getAttribute("userName"));
+		
+		// save web socket sessions
+		allWebSocketSession.add(webSocketSession);
+		
+		auctionCouponBO = new AuctionCouponBO();
 		
 		System.out.println(StringProcess.toJSONArrayString(auctionCouponBO.getAuctionCouponList()));
-			
-		for (Session elementSession : allSession) {
-			
-			elementSession.getBasicRemote().sendText(StringProcess.toJSONArrayString(auctionCouponBO.getAuctionCouponList()));
-		}
+		
+		webSocketSession.getBasicRemote()
+					.sendText(StringProcess.toJSONArrayString(auctionCouponBO.getAuctionCouponList()));
 	}
 
 	@OnMessage
@@ -41,17 +54,15 @@ public class ServerEndPoint {
 
 		if ("load-data".equals(message)) {
 
-			for (Session session : allSession) {
-				session.getBasicRemote().sendText(message);
-				// session.getBasicRemote().sendText(jsonArray.toString());
+			for (Session webSocketSession : allWebSocketSession) {
+				webSocketSession.getBasicRemote().sendText(message);
 			}
 		}
-
 	}
 
 	@OnClose
-	public void handleClose(Session session) {
-		allSession.remove(session);
+	public void handleClose(Session webSocketSession) {
+		allWebSocketSession.remove(webSocketSession);
 	}
 
 	@OnError
