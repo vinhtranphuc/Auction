@@ -41,18 +41,26 @@
 	LOGIN <br>
 	<html:form action="/login" method="post">
 
-			user name <html:text property="userName" value="admin"></html:text>
-			password <html:text property="password" value="admin"></html:text> <br>
-			<html:submit>Login</html:submit>
+			Tài khoản <html:text property="userName" ></html:text>
+			Mật khẩu <html:text property="password" ></html:text> <br>
+			<html:submit>Login</html:submit> <button onclick="clear()">Clear</button>
 	</html:form>
 
-	<button onclick="openInNewTab("")">List</button>
+	<button id = "btn-home">Go to Home</button>
 	
 	<script type="text/javascript">
-		function openInNewTab(url) {
-		  var win = window.open(url, '_blank');
-		  win.focus();
-		}
+	
+	$(document).ready(
+			function() {
+				
+				$("#btn-home").click(function() {
+					
+					var currentUrl = $(location).attr("href");
+					var goToUrl = currentUrl.replace('login.do','');
+					window.open(goToUrl, '_blank');
+				});
+
+			});
 	</script>
 </body>
 </html>

@@ -6,7 +6,8 @@
 }
 
 .list-group{
-    max-height: 200px;
+    height: 230px;
+    max-height: 230px;
     margin-bottom: 10px;
     overflow:scroll;
     -webkit-overflow-scrolling: touch;
@@ -14,4 +15,14 @@
 
 .inline{
 	display: inline;
+}
+
+.alert-custom{
+	margin-left: -25%;
+    position: absolute;
+    z-index: 1;
+    width: 899px;
+    display: none;
+    opacity: 500;
+    margin-top: 8%;
 }

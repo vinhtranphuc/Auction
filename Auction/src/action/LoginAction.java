@@ -10,6 +10,8 @@ import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
 import form.LoginForm;
+import model.bean.UserBean;
+import model.bo.AuctionCouponBO;
 
 /**
  * StringProcess.java
@@ -37,17 +39,21 @@ public class LoginAction extends Action{
 		System.out.println("LoginAction session userName: "+httpSession.getAttribute("userName"));
 		
 		LoginForm loginForm = (LoginForm) form;
+		AuctionCouponBO auctionCouponBO = new AuctionCouponBO();
 		
-		String userName = loginForm.getUserName();
-		String password = loginForm.getPassword();
+		UserBean userBean = new UserBean();
+		userBean.setUserName(loginForm.getUserName());
+		userBean.setPassword(loginForm.getPassword());
+
+		System.out.println(userBean.getUserName());
+		System.out.println(userBean.getPassword());
 		
-		if("admin".equals(password)) {
+		auctionCouponBO.checkAuthentic(userBean);
+		
+		if(auctionCouponBO.checkAuthentic(userBean)) {
 			
-			httpSession.setAttribute("userName", userName);
-			
-			System.out.println("LoginAction session userName: "+httpSession.getAttribute("userName"));
-			
-			
+			httpSession.setAttribute("userName", userBean.getUserName());
+			return mapping.findForward("auth");
 		}
 		
 		return mapping.findForward("not-auth");

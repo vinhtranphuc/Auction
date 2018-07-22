@@ -33,6 +33,7 @@ public class WebSocketFilter implements Filter {
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+		
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		final PrincipalWithSession p = new PrincipalWithSession(httpRequest.getSession());
 		HttpServletRequestWrapper wrappedRequest = new HttpServletRequestWrapper(httpRequest) {

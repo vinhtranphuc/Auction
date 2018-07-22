@@ -25,10 +25,11 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<link rel="stylesheet" type="text/css" href="css/index.css">
+<link rel="stylesheet" type="text/css" href="css/index3.css">
 
 </head>
 <body>
+
 	<!-- starting container -->
 	<div class="container" style="margin-top: 1%">
 
@@ -57,8 +58,7 @@
 					<!-- starting button group -->
 					<div class="col-sm-4">
 						<div class="pull-right" style="margin-top: 3%;">
-						<a href="/login.do" target="_blank">LOGIN</a>
-							<button type="button"  onclick="location.href='/login" class="btn btn-default">Đăng
+							<button type="button" id="btn-login" class="btn btn-default">Đăng
 								nhập</button>
 							<button type="button" class="btn btn-info">Đăng ký</button>
 						</div>
@@ -91,10 +91,10 @@
 				<table class="table table-striped" id="auction-coupon-list-table">
 					<thead>
 						<tr>
-							<th style="width: 20%">Mặt hàng</th>
+							<th style="width: 22%">Mặt hàng</th>
 							<th style="width: 7%">Chi tiết</th>
 							<th style="width: 7%">Giá bắt đầu</th>
-							<th style="width: 9%">Giá cao nhất</th>
+							<th style="width: 11%">Giá cao nhất</th>
 							<th style="width: 7%">Bước giá</th>
 							<th style="width: 10%">TG bắt đầu</th>
 							<th style="width: 10%">TG kết thúc</th>
@@ -136,8 +136,18 @@
 	<!-- Modals -->
 	<!-- Starting detail product & order modal -->
 	<div class="modal fade" id="modal-detail-product" role="dialog">
-
 		<div class="modal-dialog">
+		
+			<!-- Starting alert -->
+			<div class="alert alert-success alert-custom" id="success-alert">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				<strong id="str-message-sucess"></strong>
+			</div>
+
+			<div class="alert alert-danger alert-custom" id="fail-alert">
+				<strong id="str-message-fail"></strong>
+			</div>
+			<!-- ending alert -->
 
 			<!-- Modal content-->
 			<div class="modal-content modal-lg centered">
@@ -149,38 +159,71 @@
 				</div>
 				<div class="modal-body">
 					<div class="row">
-						<div class="col-sm-4">
-							<img src="img/iphonex.jpg" class="img-thumbnail" alt="iphoneX"
-								width="250" height="250">
+						<div class="col-sm-3">
+							<img src="img/iphonex.jpg" id="img-product" class="img-thumbnail"
+								alt="iphoneX" width="250" height="300">
 						</div>
-						<div class="col-sm-8">
-							<p>Mua điện thoại Apple iPhone X - iPhone 10 chính hãng, bảo
-								hành 1 đổi 1 trong 12 tháng tại Hệ thống CellphoneS.com.vn ✓Trả
-								góp 0% ✓Giá rẻ hơn ✓Giao iPhone 10 chính hãng, bảo hành 1 đổi 1
-								trong 12 tháng tại Hệ thống CellphoneS.com.vn ✓Trả góp iPhone 10
-								chính hãng, bảo hành 1 đổi 1 trong 12 tháng tại Hệ thống
-								CellphoneS.com.vn ✓Trả góp iPhone 10 chính hãng, bảo hành 1 đổi
-								1 trong 12 tháng tại Hệ thống CellphoneS.com.vn ✓Trả góp</p>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<div class="row">
-						<div class="col-md-3">
-							<div class="form-inline">
-								<div class="form-group">
-									<b> <span style="color: red;"> 1 day 2h:30m 20s </span>
-									</b>
-								</div>
+						<div class="col-sm-5">
+							<div class="row">
+								<b id="b-product-name" style="margin-right: 4%">Điện thoại
+									IPhone X</b><br>
+								<p id="p-product-describe" style="margin-right: 4%">Mua điện
+									thoại Apple iPhone X - iPhone 10 chính hãng, bảo hành 1 đổi 1
+									trong 12 tháng tại Hệ thống CellphoneS.com.vn ✓Trả góp 0% ✓Giá
+									rẻ hơn ✓Giao iPhone 10 chính hãng, bảo hành 1 đổi 1 trong 12
+									tháng tại Hệ thống CellphoneS.com.vn ✓Trả góp iPhone 10 chính
+									hãng, bảo hành 1 đổi 1 trong 12 tháng tại Hệ thống
+									CellphoneS.com.vn ✓Trả góp iPhone 10 chính hãng, bảo hành 1 đổi
+									1 trong 12 tháng tại Hệ thống CellphoneS.com.vn ✓Trả góp</p>
+							</div>
+							<div class="row">
+								<p style="margin-bottom: 0px">
+									Người đăng: <span id="span-member-post-name">Nguyễn Văn
+										A</span>
+								</p>
+								<p>
+									Liên hệ: <span id="span-member-post-contact">0168260123213
+										- vistsds@gmail.com</span>
+								</p>
 							</div>
 						</div>
-						<div class="col-md-9">
-							<div class="form-inline pull-right">
-								<div class="form-group">
-									<input type="text" class="form-control" id="pwd"
-										placeholder="Nhập giá">
+						<div class="col-sm-4">
+							<div class="row" style="margin-bottom: 3%;">
+								<span style="color: red; float: right; margin-right: 5%"
+									id="span-countdown-auction-modal"></span><b>Các
+									lượt đặt giá</b>
+							</div>
+							<div class="row">
+								<ul class="list-group" id="ul-member-order-list">
+									<li class="list-group-item"><strong> Nguyễn Văn A</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Thị B</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn C</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn D</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn E</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn F</strong>
+										<p style="float: right">20.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn G</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn H</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+									<li class="list-group-item"><strong> Nguyễn Văn I</strong>
+										<p style="float: right">30.000.000.000 đ</p></li>
+								</ul>
+							</div>
+							<div class="row">
+								<div class="input-group">
+									<input type="text" class="form-control" id = "input-order-price" placeholder="Nhập giá">
+									<div class="input-group-btn">
+										<button class="btn btn-default" id = "btn-order" type="button">
+											<i class="	glyphicon glyphicon-plus"></i>
+										</button>
+									</div>
 								</div>
-								<button class="btn btn-primary">Đặt giá</button>
 							</div>
 						</div>
 					</div>
@@ -190,70 +233,138 @@
 		</div>
 	</div>
 	<!-- Ending detail product & order modal  -->
+
 	<!-- End modals -->
 
 	<script type="text/javascript">
 		var websocket = new WebSocket(
 				"ws://localhost:8089/Auction/ServerEndPoint");
-
 		websocket.onopen = function(message) {
 			processOpen(message);
-
 		};
 		websocket.onmessage = function(message) {
 			processMessage(message);
 		};
-
 		websocket.onclose = function(message) {
 			processClose(message);
 		};
 		websocket.onerror = function(message) {
 			processError(message);
 		};
-
 		function processOpen(message) {
-
 		}
 		function processMessage(message) {
-
-			console.log(message);
-
-			var arr = message.data;
-
-			loadAuctionCouponList(arr);
+		  	
+			var object = JSON.parse(message.data)[0];
 			
-			handleDisplayStatus();
+			switch(object.signal)
+			{
+			    case 'severResponseAllAuctionList':
+			    	
+			     	// load data to list
+					loadAuctionCouponList(object.auctionList);
+			     	
+					// display status
+					handleDisplayStatus();
+					
+			        break;
+			        
+			    case 'severResponseOrderListSingleProduct':
+			        
+			    	// if modal is show > validate productIDresponse & productIDshowing
+			    	if(($('#modal-detail-product').data('bs.modal') || {}).isShown) {
+			    		
+			    		var productIDshowing = $('#modal-detail-product').data('productID');    		
+			    		
+			    		if(object.orderListSingleProduct.length > 0){
+			    			
+			    			var productIDresponse = object.orderListSingleProduct[0].productID;
+				    		
+				    		if(productIDresponse == productIDshowing ) {
+				    			
+				    			loadOrderListSingleProduct(object.orderListSingleProduct);
+				    			
+				    			return;
+				    		}
+			    		}
+			    	}
+			    	
+			        break;
+			    	
+			    case 'orderSuccess':
+
+			    	$("#str-message-sucess").html(object.messsage);
+			    	
+			    	$("#success-alert").fadeTo(2000, 500).slideUp(500, function(){
+			    	    $("#success-alert").slideUp(500);
+			    	});
+			    	
+			        break;
+			    case 'orderFail':
+			    	
+			    	$("#str-message-fail").html(object.messsage);
+			    	
+			    	$("#fail-alert").fadeTo(2000, 500).slideUp(500, function(){
+			    	    $("#success-alert").slideUp(500);
+			    	});
+			    	
+			        break;
+			    	
+			    default:
+			    	alert(object);
+			    	break;
+			} 
 		}
 		function processClose(message) {
-
 		}
 		function processError(message) {
-
 		}
-
-		function sendMessage() {
+		function sendMessage(message) {
 			if (typeof websocket != 'undefined'
 					&& websocket.readyState == WebSocket.OPEN) {
-				websocket.send("data");
+				websocket.send(message);
 			}
 		}
 	</script>
 
 	<script type="text/javascript">
-		//Load danh sách phiếu đấu giá
-		function loadAuctionCouponList(auctionListString) {
-
-			var arrObject = eval('(' + auctionListString + ')');
+		//load order list for single product
+		function loadOrderListSingleProduct(arrObject) {
 
 			var result = "";
-
+			
+			arrObject.reverse();
+			
 			for ( var i in arrObject) {
+				
+				result += "<li class=\"list-group-item\"><strong>"
+						+ arrObject[i]["memberName"]
+						+ "</strong> <p style=\"float: right\">"
+						+ arrObject[i]["orderPrice"] + " đ</p></li>";
+			}
+
+			// write html to body table
+			$('#ul-member-order-list').html(result);
+		}
+	</script>
+
+	<script type="text/javascript">
+		//load auction coupon list
+		function loadAuctionCouponList(arrObject) {
+
+			var result = "";
+			for ( var i in arrObject) {
+				
 				result += "<tr>" + "<td>"
 						+ arrObject[i]["product"]
 						+ "</td>"
 						+ "<td>"
-						+ "<button type=\"button\" class=\"btn btn-info btn-xs\" id = \""+arrObject[i]["productID"]+"\""
-					+"data-toggle=\"modal\" data-target=\"#modal-detail-product\"> Chi tiết </button>"
+						+ "<button type=\"button\" class=\"btn btn-info btn-xs\" id = \"countDown-product-"
+						+ arrObject[i]["productID"]
+						+ "\""
+						+ "data-toggle=\"modal\" id=\"count-down-"
+						+ arrObject[i]["productID"]
+						+ "\"> Chi tiết </button>"
 						+ "</td>"
 						+ "<td> "
 						+ arrObject[i]["startingPrice"]
@@ -272,98 +383,234 @@
 						+ "</td>"
 						+ "<td>"
 						+ "<span style=\"color: red\" id=\"count-down-"+arrObject[i]["productID"]+"\">"
-						+ "</span>"
-						+ "</td>"
-						+ "</tr>";
+						+ "</span>" + "</td>" + "</tr>";
 			}
 			
 			// write html to body table
 			$('#auction-coupon-list-body').html(result);
-		}
-	</script>
 
-	<script type="text/javascript">
-		window.addEventListener('load', function() {
-
-			}
-		}, false);
-	</script>
-
-	<script type="text/javascript">
-		function handleDisplayStatus() {
-
-			// get auction list
-			var table = document.getElementById("auction-coupon-list-body");
-
-			// loop each row in table
-			for (var i = 0, row; row = table.rows[i]; i++) {
+			// write detail auction data to btn
+			for ( var i in arrObject) {
 				
-				// get start_time for each row
-				var start_time = row.cells[6].innerHTML;
+				var btnDetailName = "";
+				var btnDetailName = "#countDown-product-"+arrObject[i]["productID"];
+
+				// write object 
+				$(btnDetailName).data("detailAuctObject", arrObject[i]["detailAuctString"] ); 
+
+				// write star time
+				$(btnDetailName).data("startTime", arrObject[i]["startTime"] ); 
+
+				// write end time
+				$(btnDetailName).data("endTime", arrObject[i]["endTime"] ); 
 				
-				// get end time for each row
-				var end_time = row.cells[6].innerHTML;
+				// when click btn
+				$(btnDetailName).click(function() {
+					
+					alert($(this).attr('id')+' clicked');
+					
+					var detailAuctObject = $(this).data('detailAuctObject');
+					
+					//detailAuctObject = JSON.parse(detailAuctObject)[0];
+					detailAuctObject = detailAuctObject[Object.keys(detailAuctObject)[0]];
 
-				// get id name of span
-				var span_id = row.cells[7].getElementsByTagName("span")[0]
-						.getAttribute("id");
-
-				// process display countdown time
-				countDownTimer(span_id, start_time, end_time);
-			}
-		}
+					var startTime = $(this).data('startTime');
+					
+					var endTime = $(this).data('endTime');
 		
-		// function process display countdown time to span
-		function countDownTimer(element_id,start_time, end_time) {
-			
-			// Get todays date and time
-			var now = new Date().getTime();
-			
-			// instance startime
-			var startTime = new Date(start_time).getTime();
-			
-			var distance = now - startTime;
-			
-			if(distance < 0) {
-				document.getElementById(element_id).innerHTML = "Chưa bắt đầu";
-			} else {
-				
-				// Set the date we're counting down to
-				var endTime = new Date(end_time).getTime();
-
-				// Update the count down every 1 second
-				var x = setInterval(function() {
-
-					// Find the distance between now an the count down date
-					distance = endTime - now;
-
-					// Time calculations for days, hours, minutes and seconds
-					var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-					var hours = Math.floor((distance % (1000 * 60 * 60 * 24))
-							/ (1000 * 60 * 60));
-					var minutes = Math.floor((distance % (1000 * 60 * 60))
-							/ (1000 * 60));
-					var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-					// Output the result in an element with id="demo"
-					document.getElementById(element_id).innerHTML = days + "d "
-							+ hours + "h " + minutes + "m " + seconds + "s còn lại ";
-
-					// If the count down is over, write some text 
-					if (distance < 0) {
-						clearInterval(x);					
-						document.getElementById(element_id).innerHTML = "Hết thời gian";
-					}
-				}, 1000);
+					processLoadDataToModal(detailAuctObject,startTime,endTime);
+					
+					// show modal box
+					$('#modal-detail-product').modal('toggle');
+					$('#modal-detail-product').modal('show');
+				});
 			}
 		}
 	</script>
 	
 	<script type="text/javascript">
-		function openInNewTab(url) {
-		  var win = window.open(url, '_blank');
-		  win.focus();
+
+		// load detail auction based on product
+		function processLoadDataToModal(detailAuctObject,startTime,endTime) {
+			
+			// get data from button
+			var product_ID = detailAuctObject.productID;
+			var img_product = detailAuctObject.productImgPath;
+ 			var product_name = detailAuctObject.product;
+			var product_describe = detailAuctObject.productDescribe;
+			var member_post_name = detailAuctObject.memberName;
+			var member_post_contact = detailAuctObject.phone + " - " + detailAuctObject.email;
+			
+			// save productID to modal
+			$('#modal-detail-product').data("productID", product_ID);
+			
+			// display detail auction infor on modal
+			$('#img-product').html(img_product);
+			$('#b-product-name').html(product_name);
+			$('#p-product-describe').html(product_describe);
+			$('#span-member-post-name').html(member_post_name);
+			$('#span-member-post-contact').html(member_post_contact);
+
+			// process count down on modal
+			countDownTimer('span-countdown-auction-modal',startTime,endTime);
+			
+			// clear order list
+			$('#ul-member-order-list').html("");
+			
+			// send request load order list
+			requestSignalLoadOrderList(product_ID);
+		}
+		
+		// send signal load order list
+		function requestSignalLoadOrderList(product_ID) {
+			sendMessage("clientLoadOrderListSingleProduct-"+product_ID);
 		}
 	</script>
+
+	<script type="text/javascript">
+		function handleDisplayStatus() {
+			
+			// get auction list
+			var table = document.getElementById("auction-coupon-list-body");
+			// loop each row in table
+			for (var i = 0, row; row = table.rows[i]; i++) {
+
+				// get start_time for each row
+				var start_time = row.cells[5].innerHTML;
+
+				// get end time for each row
+				var end_time = row.cells[6].innerHTML;
+				
+				// get id name of span
+				var span_id = row.cells[7].getElementsByTagName("span")[0]
+						.getAttribute("id");
+				
+				// process display countdown time
+				countDownTimer(span_id, start_time, end_time);
+			}
+		}
+
+		// function process display countdown time to span
+		function countDownTimer(element_id, start_time, end_time) {
+
+			// Get todays date and time
+			var now = new Date().getTime();
+
+			// instance startime
+			var startTime = new Date(start_time).getTime();
+
+			var distance = now - startTime;
+
+			if (distance < 0) {
+
+				document.getElementById(element_id).innerHTML = "Chưa bắt đầu";
+			} else {
+
+				// Set the date we're counting down to
+				var endTime = new Date(end_time).getTime();
+
+				// Update the count down every 1 second
+				var x = setInterval(
+						function() {
+
+							now = new Date().getTime();
+
+							// Find the distance between now an the count down date
+							distance = endTime - now;
+
+							// Time calculations for days, hours, minutes and seconds
+							var days = Math.floor(distance
+									/ (1000 * 60 * 60 * 24));
+
+							var hours = Math
+									.floor((distance % (1000 * 60 * 60 * 24))
+											/ (1000 * 60 * 60));
+
+							var minutes = Math
+									.floor((distance % (1000 * 60 * 60))
+											/ (1000 * 60));
+
+							var seconds = Math
+									.floor((distance % (1000 * 60)) / 1000);
+
+							// Output the result in an element with id="demo"
+							document.getElementById(element_id).innerHTML = days
+									+ "d "
+									+ hours
+									+ "h "
+									+ minutes
+									+ "m "
+									+ seconds + "s còn lại ";
+
+							// If the count down is over, write some text 
+							if (distance < 0) {
+
+								clearInterval(x);
+								document.getElementById(element_id).innerHTML = "Hết thời gian";
+							}
+						}, 1000);
+			}
+		}
+	</script>
+
+	<script type="text/javascript">
+		$(document).ready(
+				function() {
+
+					$("#success-alert").hide();
+					$("#fail-alert").hide();
+
+					//login
+					$("#btn-login").click(function() {
+
+						var currentUrl = $(location).attr("href");
+
+						var goToUrl = currentUrl.concat('login.do','');
+
+						window.open(goToUrl, '_blank'); 
+						
+					});
+
+					//order
+					$("#btn-order").click(
+							function() {
+
+								var orderPrice = $("#input-order-price").val();
+
+								if (!orderPrice) {
+
+									alert('Chưa nhập số tiền !');
+									return;
+								}
+
+								if (!$.isNumeric(orderPrice)) {
+
+									alert('Tiền không hợp lệ !');
+									return;
+								} 
+
+								// validate something
+
+								// get productID on modal
+								var productID = $("#modal-detail-product")
+										.data('productID');
+
+								// save order price to DB
+								sendMessage("cilentOrderPrice-" + productID
+										+ "-" + orderPrice);
+
+							});
+
+				});
+	</script>
+	
+	<script>
+	
+		// validate
+		function isRealValue(obj) {
+			return obj && obj !== 'null' && obj !== 'undefined';
+		}
+	</script>
+
 </body>
 </html>

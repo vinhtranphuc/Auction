@@ -16,11 +16,12 @@ package model.bean;
  */
 
 public class AuctionCouponBean {
-
-	private String product;
+	
+	// product
 	private String productID;
-	private String memberName;
-	private String memberID;
+	private String product;
+	
+	// auction
 	private String startingPrice;
 	private String highestPrice;
 	private String stepPrice;
@@ -28,29 +29,20 @@ public class AuctionCouponBean {
 	private String endTime;
 	private boolean stopAuctionFlag;
 	
-	public String getProduct() {
-		return product;
-	}
-	public void setProduct(String product) {
-		this.product = product;
-	}
+	// detail auction json string
+	private String detailAuctString;
+	
 	public String getProductID() {
 		return productID;
 	}
 	public void setProductID(String productID) {
 		this.productID = productID;
 	}
-	public String getMemberName() {
-		return memberName;
+	public String getProduct() {
+		return product;
 	}
-	public void setMemberName(String memberName) {
-		this.memberName = memberName;
-	}
-	public String getMemberID() {
-		return memberID;
-	}
-	public void setMemberID(String memberID) {
-		this.memberID = memberID;
+	public void setProduct(String product) {
+		this.product = product;
 	}
 	public String getStartingPrice() {
 		return startingPrice;
@@ -88,5 +80,10 @@ public class AuctionCouponBean {
 	public void setStopAuctionFlag(boolean stopAuctionFlag) {
 		this.stopAuctionFlag = stopAuctionFlag;
 	}
-
+	public String getDetailAuctString() {
+		return detailAuctString;
+	}
+	public void setDetailAuctString(String detailAuctString) {
+		this.detailAuctString = detailAuctString;
+	}
 }
