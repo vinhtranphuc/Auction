@@ -36,17 +36,12 @@ public class LoginAction extends Action{
 		
 		HttpSession httpSession = request.getSession();
 		
-		System.out.println("LoginAction session userName: "+httpSession.getAttribute("userName"));
-		
 		LoginForm loginForm = (LoginForm) form;
 		AuctionCouponBO auctionCouponBO = new AuctionCouponBO();
 		
 		UserBean userBean = new UserBean();
 		userBean.setUserName(loginForm.getUserName());
 		userBean.setPassword(loginForm.getPassword());
-
-		System.out.println(userBean.getUserName());
-		System.out.println(userBean.getPassword());
 		
 		auctionCouponBO.checkAuthentic(userBean);
 		
