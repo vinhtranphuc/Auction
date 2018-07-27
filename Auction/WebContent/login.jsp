@@ -1,20 +1,20 @@
-<%@page import="common.StringProcess"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean"%>
-<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html"%>
-<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic"%>
-<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles"%>
+<%@page import="java.util.ArrayList"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://struts.apache.org/tags-bean" prefix="bean" %>
+<%@ taglib uri="http://struts.apache.org/tags-html" prefix="html" %>
+<%@ taglib uri="http://struts.apache.org/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://struts.apache.org/tags-tiles" prefix="tiles" %>
 <!DOCTYPE html>
 <html>
 <head>
 <title>Auction</title>
 
-<meta charset="utf-8">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="description" content="">
 <meta name="author" content="">
+
 <!--===============================================================================================-->	
 	<link rel="icon" type="image/png" href="login/images/icons/favicon.ico"/>
 <!--===============================================================================================-->
@@ -45,46 +45,36 @@
 			<div class="wrap-login100 p-t-85 p-b-20">
 				<form class="login100-form validate-form">
 					<span class="login100-form-title p-b-70">
-						Welcome
+						Auction Online
 					</span>
 					<span class="login100-form-avatar">
-						<img src="images/avatar-01.jpg" alt="AVATAR">
+						<img src="login/images/auction-logo.jpg" alt="AVATAR">
 					</span>
 
-					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "Enter username">
+					<div class="wrap-input100 validate-input m-t-85 m-b-35" data-validate = "ChÆ°a nháº­p tÃ i khoáº£n">
 						<input class="input100" type="text" name="username">
-						<span class="focus-input100" data-placeholder="Username"></span>
+						<span class="focus-input100" data-placeholder="TÃ i khoáº£n"></span>
 					</div>
 
-					<div class="wrap-input100 validate-input m-b-50" data-validate="Enter password">
+					<div class="wrap-input100 validate-input m-b-50" data-validate="ChÆ°a nháº­p máº­t kháº©u">
 						<input class="input100" type="password" name="pass">
-						<span class="focus-input100" data-placeholder="Password"></span>
+						<span class="focus-input100" data-placeholder="Máº­t kháº©u"></span>
 					</div>
 
 					<div class="container-login100-form-btn">
 						<button class="login100-form-btn">
-							Login
+							ÄÄng nháº­p
 						</button>
 					</div>
 
 					<ul class="login-more p-t-190">
-						<li class="m-b-8">
-							<span class="txt1">
-								Forgot
-							</span>
-
-							<a href="#" class="txt2">
-								Username / Password?
-							</a>
-						</li>
-
 						<li>
 							<span class="txt1">
-								Don’t have an account?
+								Báº¡n chÆ°a cÃ³ tÃ i khoáº£n ?
 							</span>
 
 							<a href="#" class="txt2">
-								Sign up
+								ÄÄng kÃ½
 							</a>
 						</li>
 					</ul>

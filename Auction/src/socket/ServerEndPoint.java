@@ -19,7 +19,7 @@ import org.apache.commons.lang.StringUtils;
 
 import common.StringProcess;
 import config.PrincipalWithSession;
-import model.bo.AuctionCouponBO;
+import home.model.bo.HomeBO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
@@ -33,7 +33,7 @@ public class ServerEndPoint {
 	static Set<Session> allSocketSession = Collections.synchronizedSet(new HashSet<>());
 
 	// auctionCouponBO
-	private AuctionCouponBO auctionCouponBO;
+	private HomeBO homeBO;
 	
 	private String userNameSession;
 	
@@ -52,10 +52,10 @@ public class ServerEndPoint {
 		
 		userNameSession = (String) httpSession.getAttribute("userName");
 		
-		auctionCouponBO = new AuctionCouponBO();
+		homeBO = new HomeBO();
 		
 		if(!StringUtils.equals("", userNameSession) && userNameSession != null){
-			memberIDsession = auctionCouponBO.getMemberIDSession(userNameSession);
+			memberIDsession = homeBO.getMemberIDSession(userNameSession);
 		}
 		
 		
@@ -64,9 +64,9 @@ public class ServerEndPoint {
 		// save web socket sessions
 		allSocketSession.add(clientSocketSession);
 
-		auctionCouponBO = new AuctionCouponBO();
+		homeBO = new HomeBO();
 
-		createObjectRes("severResponseAllAuctionList","auctionList",auctionCouponBO.getAuctionCouponList());
+		createObjectRes("severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
 		
 		sendDataSingleClient(clientSocketSession,obj);
 	}
@@ -78,7 +78,7 @@ public class ServerEndPoint {
 
 		if ("severUpdateAuctionList".equals(message)) {
 			
-			createObjectRes("severResponseAllAuctionList","auctionList",auctionCouponBO.getAuctionCouponList());
+			createObjectRes("severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
 			
 			sendDataAllClient(obj);
 
@@ -99,7 +99,7 @@ public class ServerEndPoint {
 		
 		if ("clientLoadOrderListSingleProduct".equals(signal) && !"".equals(productIDrequest)) {
 			
-			createObjectRes("severResponseOrderListSingleProduct","orderListSingleProduct",auctionCouponBO.getOrderList(productIDrequest));
+			createObjectRes("severResponseOrderListSingleProduct","orderListSingleProduct",homeBO.getOrderList(productIDrequest));
 			sendDataSingleClient(clientSocketSession, StringProcess.toJSONArrayString(obj));
 
 			return;
@@ -115,13 +115,13 @@ public class ServerEndPoint {
 		
 		if ("cilentOrderPrice".equals(signal) && !"".equals(productIDrequest)
 				&& StringProcess.isNumeric(orderPriceRequest)
-				&& auctionCouponBO.saveOrderPrice(memberIDsession, productIDrequest, orderPriceRequest)) {
+				&& homeBO.saveOrderPrice(memberIDsession, productIDrequest, orderPriceRequest)) {
 
 			createObjectRes("orderSuccess", "messsage", "Đặt thành công!");
 			sendDataSingleClient(clientSocketSession, obj);
 
 			createObjectRes("severResponseOrderListSingleProduct", "orderListSingleProduct",
-					auctionCouponBO.getOrderList(productIDrequest));	
+					homeBO.getOrderList(productIDrequest));	
 			sendDataAllClient(obj);
 
 			return;
