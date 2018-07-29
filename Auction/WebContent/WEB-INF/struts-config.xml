@@ -5,7 +5,8 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 <struts-config>
 
 	<form-beans>
-		<form-bean name="loginForm" type="home.form.LoginForm" />
+		<form-bean name="loginForm" type="form.LoginForm" />
+		<form-bean name="auctionInforForm" type="form.AuctionInforForm" />
 	</form-beans>
 	
 	<action-mappings>
@@ -19,6 +20,16 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 			>		
 			<forward name="auth" path="/home/home.html" />
 			<forward name="not-auth" path="/login/login.jsp" />
+		</action>
+		
+		<action 
+			input="/login.jsp" 
+			name="auctionInforForm" 
+			path="/auctionInfor"
+			scope="request" 
+			type="management.action.AuctionInforAction"
+			>		
+			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
 		</action>
 
 	</action-mappings>

@@ -1,4 +1,4 @@
-package home.model.dao;
+package config;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,7 +14,7 @@ public class ConnectMySQL {
 	private String user = "root";
 	private String pass = "";
 
-	Connection getConnection() throws SQLException {
+	protected Connection getConnection() throws SQLException {
 
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -33,7 +33,7 @@ public class ConnectMySQL {
 	 * @return
 	 * @throws SQLException
 	 */
-	PreparedStatement getPrepareStatement(String query) throws SQLException {
+	protected PreparedStatement getPrepareStatement(String query) throws SQLException {
 		return getConnection().prepareStatement(query);
 	}
 
@@ -44,7 +44,7 @@ public class ConnectMySQL {
 	 * @return
 	 * @throws SQLException
 	 */
-	ResultSet getResultSet(String query) throws SQLException {
+	protected ResultSet getResultSet(String query) throws SQLException {
 		return getPrepareStatement(query).executeQuery();
 	}
 

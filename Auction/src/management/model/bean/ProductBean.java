@@ -1,4 +1,4 @@
-package management.bean;
+package management.model.bean;
 
 public class ProductBean {
 	

@@ -2,7 +2,7 @@ package home.model.bo;
 
 import java.util.List;
 
-import home.model.bean.AuctionCouponBean;
+import home.model.bean.AuctionPostBean;
 import home.model.bean.OrdererBean;
 import home.model.bean.UserBean;
 import home.model.dao.HomeDAO;
@@ -11,7 +11,7 @@ public class HomeBO {
 
 	HomeDAO homeDAO = new HomeDAO();
 	
-	public List<AuctionCouponBean> getAuctionCouponList(){
+	public List<AuctionPostBean> getAuctionCouponList(){
 		return homeDAO.getAuctionCouponList();
 	}
 	

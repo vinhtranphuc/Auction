@@ -1,6 +1,6 @@
 package home.model.bean;
 
-public class DetailAuctionCouponBean {
+public class DetailAuctionPostBean {
 	
 	// product
 	private String productID;

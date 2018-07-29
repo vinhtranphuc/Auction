@@ -8,8 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import common.StringProcess;
-import home.model.bean.AuctionCouponBean;
-import home.model.bean.DetailAuctionCouponBean;
+import config.ConnectMySQL;
+import home.model.bean.AuctionPostBean;
+import home.model.bean.DetailAuctionPostBean;
 import home.model.bean.OrdererBean;
 import home.model.bean.UserBean;
 
@@ -33,14 +34,14 @@ public class HomeDAO extends ConnectMySQL {
 	ResultSet rs;
 	PreparedStatement pstmt;
 	Statement stmt;
-	AuctionCouponBean auctionCouponBean;
-	DetailAuctionCouponBean detailAuctionCouponBean;
+	AuctionPostBean auctionPostBean;
+	DetailAuctionPostBean detailAuctionPostBean;
 	OrdererBean ordererBean;
 	
 
-	public List<AuctionCouponBean> getAuctionCouponList() {
+	public List<AuctionPostBean> getAuctionCouponList() {
 
-		List<AuctionCouponBean> autionCouponList = new ArrayList<AuctionCouponBean>();
+		List<AuctionPostBean> autionCouponList = new ArrayList<AuctionPostBean>();
 
 		String query = "SELECT PRODUCT, AUCTION.PRODUCT_ID, PRODUCTS.IMAGE_PATH AS PRODUCT_IMG_PATH, PRODUCTS.DESCRIBE AS PRODUCT_DESCRIBE, MEMBER_NAME, AUCTION.MEMBER_ID, AUCTIONEER.PHONE AS MEMBER_POST_PHONE, AUCTIONEER.EMAIL AS MEMBER_POST_EMAIL, STARTING_PRICE, (CASE WHEN (SELECT MAX(ORDERER.ORDER_PRICE) FROM ORDERER WHERE ORDERER.PRODUCT_ID = PRODUCT_ID) IS NULL THEN 0 ELSE (SELECT MAX(ORDERER.ORDER_PRICE) FROM ORDERER WHERE ORDERER.PRODUCT_ID = PRODUCT_ID) END) AS HIGHEST_PRICE, STEP_PRICE, START_TIME, END_TIME, STOP_AUCTION_FLAG FROM AUCTION, PRODUCTS, AUCTIONEER WHERE AUCTION.PRODUCT_ID = PRODUCTS.PRODUCT_ID AND AUCTION.MEMBER_ID = AUCTIONEER.MEMBER_ID GROUP BY AUCTION.PRODUCT_ID ORDER BY AUCTION.PRODUCT_ID ASC";
 		try {
@@ -49,34 +50,34 @@ public class HomeDAO extends ConnectMySQL {
 			
 			while (rs.next()) {
 				
-				auctionCouponBean = new AuctionCouponBean();
+				auctionPostBean = new AuctionPostBean();
 				
-				auctionCouponBean.setProduct(rs.getString("PRODUCT"));
-				auctionCouponBean.setProductID(rs.getString("PRODUCT_ID"));
+				auctionPostBean.setProduct(rs.getString("PRODUCT"));
+				auctionPostBean.setProductID(rs.getString("PRODUCT_ID"));
 				
-				auctionCouponBean.setStartingPrice(rs.getString("STARTING_PRICE"));
-				auctionCouponBean.setHighestPrice(rs.getString("HIGHEST_PRICE"));
-				auctionCouponBean.setStepPrice(rs.getString("STEP_PRICE"));
-				auctionCouponBean.setStartTime(rs.getString("START_TIME"));
-				auctionCouponBean.setEndTime(rs.getString("END_TIME"));
+				auctionPostBean.setStartingPrice(rs.getString("STARTING_PRICE"));
+				auctionPostBean.setHighestPrice(rs.getString("HIGHEST_PRICE"));
+				auctionPostBean.setStepPrice(rs.getString("STEP_PRICE"));
+				auctionPostBean.setStartTime(rs.getString("START_TIME"));
+				auctionPostBean.setEndTime(rs.getString("END_TIME"));
 			
-				auctionCouponBean.setStopAuctionFlag(rs.getString("STOP_AUCTION_FLAG") == "1" ? true : false);
+				auctionPostBean.setStopAuctionFlag(rs.getString("STOP_AUCTION_FLAG") == "1" ? true : false);
 				
-				detailAuctionCouponBean = new DetailAuctionCouponBean();
+				detailAuctionPostBean = new DetailAuctionPostBean();
 						
-				detailAuctionCouponBean.setProduct(rs.getString("PRODUCT"));
-				detailAuctionCouponBean.setProductID(rs.getString("PRODUCT_ID"));
-				detailAuctionCouponBean.setProductImgPath(rs.getString("PRODUCT_IMG_PATH"));
-				detailAuctionCouponBean.setProductDescribe(rs.getString("PRODUCT_DESCRIBE"));
+				detailAuctionPostBean.setProduct(rs.getString("PRODUCT"));
+				detailAuctionPostBean.setProductID(rs.getString("PRODUCT_ID"));
+				detailAuctionPostBean.setProductImgPath(rs.getString("PRODUCT_IMG_PATH"));
+				detailAuctionPostBean.setProductDescribe(rs.getString("PRODUCT_DESCRIBE"));
 				
-				detailAuctionCouponBean.setMemberName(rs.getString("MEMBER_NAME"));
-				detailAuctionCouponBean.setMemberID(rs.getString("MEMBER_ID"));
-				detailAuctionCouponBean.setPhone(rs.getString("MEMBER_POST_PHONE"));
-				detailAuctionCouponBean.setEmail(rs.getString("MEMBER_POST_EMAIL"));
+				detailAuctionPostBean.setMemberName(rs.getString("MEMBER_NAME"));
+				detailAuctionPostBean.setMemberID(rs.getString("MEMBER_ID"));
+				detailAuctionPostBean.setPhone(rs.getString("MEMBER_POST_PHONE"));
+				detailAuctionPostBean.setEmail(rs.getString("MEMBER_POST_EMAIL"));
 				
-				auctionCouponBean.setDetailAuctString(StringProcess.toJSONArrayString(detailAuctionCouponBean));
+				auctionPostBean.setDetailAuctString(StringProcess.toJSONArrayString(detailAuctionPostBean));
 
-				autionCouponList.add(auctionCouponBean);
+				autionCouponList.add(auctionPostBean);
 			}
 
 		} catch (SQLException e) {

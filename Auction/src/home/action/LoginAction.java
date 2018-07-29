@@ -9,7 +9,7 @@ import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
 
-import home.form.LoginForm;
+import form.LoginForm;
 import home.model.bean.UserBean;
 import home.model.bo.HomeBO;
 

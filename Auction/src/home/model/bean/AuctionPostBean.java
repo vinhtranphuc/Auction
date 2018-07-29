@@ -1,7 +1,7 @@
 package home.model.bean;
 
 /**
- * StringProcess.java
+ * AuctionPostBean.java
  *
  * Version 1.0
  *
@@ -15,7 +15,7 @@ package home.model.bean;
  * Jul 5, 2018        	Vinh          	Create
  */
 
-public class AuctionCouponBean {
+public class AuctionPostBean {
 	
 	// product
 	private String productID;

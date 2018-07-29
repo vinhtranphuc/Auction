@@ -1,4 +1,4 @@
-package home.form;
+package form;
 
 import org.apache.struts.action.ActionForm;
 
