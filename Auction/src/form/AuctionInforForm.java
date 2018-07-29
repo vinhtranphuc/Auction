@@ -18,6 +18,7 @@ public class AuctionInforForm extends ActionForm {
 	private String statusSearch;
 	private String productNameSearch;
 	
+	
 	private DetailAuctionInforBean detailAuctionInforBean;
 	
 	private String searchButton;
