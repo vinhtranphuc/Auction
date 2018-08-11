@@ -138,8 +138,13 @@
 												</div>
 												<div class="col-sm-6">
 													<div class="form-group">
-														<label for="pwd">Loại</label> <input type="text"
-														class="form-control" id="inp-category">
+														<label for="pwd">Loại</label>
+														<select class="form-control" id="inp-category">
+														    <option>1</option>
+														    <option>2</option>
+														    <option>3</option>
+														    <option>4</option>
+														  </select>
 													</div>
 												</div>
 											</div>
@@ -339,6 +344,9 @@
 									$("#" + elementIDarr[i]).prop('disabled', false);
 									break;
 									case 'TEXTAREA':
+									$("#" + elementIDarr[i]).prop('disabled', false);
+
+									case 'SELECT':
 									$("#" + elementIDarr[i]).prop('disabled', false);
 									break;
 								}

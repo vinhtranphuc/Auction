@@ -2,25 +2,33 @@ package management.model.bean;
 
 public class DetailAuctionInforBean {
 	
-	private String productID = "";
-	private String productName = "";
-	private String productDescribe = "";
-	private String productImgPath = "";
+	private String memberID;
 	
-	private String categoryName = "";
+	private String productID;
+	private String productName;
+	private String productDescribe;
+	private String productImgPath;
+	
+	private String categoryName;
 	private String categoryID;
 
-	private String startingPrice = "";
-	private String endTime = "";
-	private String startTime = "";
+	private String startingPrice;
+	private String endTime;
+	private String startTime;
 	private String stepPrice;
-	private String marketPrice = "";
-	private String status = "";
+	private String marketPrice;
+	private String status;
 	
-	private String winnerAuction = "";
-	private String memberIDWinner = "";
-	private String highestPrice = "";
+	private String winnerAuction;
+	private String memberIDWinner;
+	private String highestPrice;
 	
+	public String getMemberID() {
+		return memberID;
+	}
+	public void setMemberID(String memberID) {
+		this.memberID = memberID;
+	}
 	public String getProductID() {
 		return productID;
 	}

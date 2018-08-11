@@ -7,6 +7,9 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 	<form-beans>
 		<form-bean name="loginForm" type="form.LoginForm" />
 		<form-bean name="auctionInforForm" type="form.AuctionInforForm" />
+		<form-bean name="detailAuctionInforForm" type="form.DetailAuctionInforForm" />
+		<form-bean name="profileForm" type="form.ProfileForm" />
+		<form-bean name = "memberInforForm" type ="form.MemberInforForm"></form-bean>
 	</form-beans>
 	
 	<action-mappings>
@@ -30,6 +33,68 @@ Configuration 1.3//EN" "http://struts.apache.org/dtds/struts-config_1_3.dtd">
 			type="management.action.AuctionInforAction"
 			>		
 			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
+			<forward name="login" path="/login.do" />
+		</action>
+		
+		<action 
+			input="/auctionInfor.jsp" 
+			name="detailAuctionInforForm" 
+			path="/ajaxCreateAuctionAction"
+			scope="request" 
+			type="management.action.AjaxCreateAuctionAction"
+			>		
+			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
+		</action>
+		
+		<action 
+			input="/auctionInfor.jsp" 
+			name="detailAuctionInforForm" 
+			path="/ajaxEditAuctionAction"
+			scope="request" 
+			type="management.action.AjaxEditAuctionAction"
+			>		
+			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
+		</action>
+		
+		<action 
+			input="/auctionInfor.jsp" 
+			name="detailAuctionInforForm" 
+			path="/ajaxDeleteAuctionAction"
+			scope="request" 
+			type="management.action.AjaxDeleteAuctionAction"
+			>		
+			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
+		</action>
+		
+		<action 
+			input="/auctionInfor.jsp" 
+			name="detailAuctionInforForm" 
+			path="/ajaxStopAuctionAction"
+			scope="request" 
+			type="management.action.AjaxStopAuctionAction"
+			>		
+			<forward name="aucitionInfo" path="/management/auctionInfor.jsp" />
+		</action>
+		
+		<action 
+			input="/profile.jsp" 
+			name="profileForm" 
+			path="/profile"
+			scope="request" 
+			type="management.action.ProfileAction"
+			>		
+			<forward name="profile" path="/management/profile.jsp" />
+			<forward name="login" path="/login.do" />
+		</action>
+		
+		<action 
+			input="/profile.jsp" 
+			name="memberInforForm" 
+			path="/ajaxEditMemberInforAction"
+			scope="request" 
+			type="management.action.AjaxEditMemberInforAction"
+			>		
+			<forward name="profile" path="/management/profile.jsp" />
 		</action>
 
 	</action-mappings>

@@ -24,10 +24,10 @@
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 
 	<!-- Custom CSS -->
-	<link href="css/sb-admin.css" rel="stylesheet">
+	<link href="management/css/sb-admin.css" rel="stylesheet">
 
 	<!-- Custom Fonts -->
-	<link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+	<link href="management/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
 	<!-- /#wrapper -->
 	<!-- jQuery library -->
@@ -41,8 +41,8 @@
 </head>
 
 <body>
-
-			<div id="wrapper">
+	<div id="wrapper">
+		
 				<!-- Navigation -->
 				<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 					<!-- Brand and toggle get grouped for better mobile display -->
@@ -85,30 +85,32 @@
 						<div class="panel-body">
 
 							<div class="controls">
-								<form class="form-inline" action="/action_page.php" style="margin-left: 1%">
+								<html:form styleClass="form-inline" action="/auctionInfor.do" method="get" acceptCharset="UTF-8" style="margin-left: 1%">
 
 									<div class="form-group" style="margin-right: 2%">
 										<label for="email">Ngày đăng tải</label>
-										<input class="form-control" id="post-time" placeholder="MM/DD/YYY" type="date">
+										<input class="form-control" id="post-time" name="postDateSearch" placeholder="YYYY-MM-DD" type="date">
 									</div>
 									<div class="form-group" style="width: 21%;margin-right: 2%;">
 										<label for="pwd">Tình trạng</label>
-										<select class="form-control" id="sel-status" style="width: 61%;">
+										<select class="form-control" name = "statusSearch" id="sel-status" style="width: 61%;">
+											<option value="">tình trạng :</option>
 											<option value="1">chưa bắt đầu</option>
 											<option value="2">Đang đấu giá</option>
-											<option value="3">Hết thời gian (0 người mua)</option>
-											<option value="4">Hết thời gian (có người mua)</option>
+											<option value="3">Hết thời gian (có người mua)</option>
+											<option value="4">Hết thời gian (0 người mua)</option>
+											<option value="5">Đã dừng</option>
 										</select>
 									</div>
 									<div class="form-group" style="width: 27%;margin-right: 2%;">
 										<label for="pwd">Tên mặt hàng</label>
-										<input type="text" class="form-control" id="inp-search-product-name" style="width: 60%;">
+										<input type="text" class="form-control" name="productNameSearch" id="inp-search-product-name" style="width: 60%;">
 									</div>
 									<div class="form-group" style="margin-right: 2%">
-										<button type="submit" class="btn btn-info">Search</button>
-										<button type="submit" class="btn btn-default">Clear</button>
+										<button type="submit" name="searchButton" value = "search" class="btn btn-info">Search</button>
+										<button type="button" class="btn btn-default">Clear</button>
 									</div>
-								</form>
+								</html:form>
 							</div>
 							<hr>
 							<div class="row">
@@ -117,16 +119,25 @@
 									<div class="row">
 										<b style="margin-left: 2%; width: 100%">DANH SÁCH MẶT HÀNG</b>
 										<ul class="list-group" id="ul-product-list">
-											<li class="list-group-item"><a href="#"><strong>
-											Đất ABC</strong></a></li>
+											<logic:iterate name="auctionInforForm" property="productList" id="product">
+												<li class="list-group-item">
+													<a href="?productID=<logic:present name="product" property="productID"><bean:write name="product" property="productID"/></logic:present>">
+														<strong>
+															<logic:present name="product" property="productName"><bean:write name="product" property="productName"/></logic:present>
+														</strong>
+													</a>
+												</li>
+											</logic:iterate>
 										</ul>
 									</div>
 									<!-- ending list post= -->
 								</div>
 								<div class="col-sm-9">
+								
 							<logic:present name="auctionInforForm" property="detailAuctionInforBean">
-								<bean:define id="attrAuctionInfor" property="detailAuctionInforBean" name="auctionInforForm"" />
+							<bean:define id="attrAuctionInfor" property="detailAuctionInforBean" name="auctionInforForm" />
 							</logic:present>
+							
 							<!-- starting product infor gr -->
 									<div class="row">
 										<div class="row" style="margin-bottom: 2%">
@@ -134,7 +145,7 @@
 										</div>
 										<div class="col-sm-4" style="height: 200px">
 											<div style="height: 160px">
-												<img src="images/test.jpg" class="img-responsive center-block"
+												<img src="/images/<logic:present name="attrAuctionInfor" property="productImgPath"><bean:write name="attrAuctionInfor" property="productImgPath"/></logic:present>" class="img-responsive center-block"
 												id="img-product" alt="iphone x">
 											</div>
 											<input type="file" name="inp-chofile" id="inp-chofile">
@@ -143,21 +154,28 @@
 											<div class="row">
 												<div class="col-sm-6">
 													<div class="form-group">
-														<label for="email">Tên mặt hàng</label> <input type="text"
-														class="form-control" id="inp-product-name" value="<bean:write name="attrAuctionInfor" property="productName"/>">
+														<label for="email">Tên mặt hàng</label> <input type="text" id="inp-product-name"
+														class="form-control" name = "<logic:present name="attrAuctionInfor" property="productID"><bean:write name="attrAuctionInfor" property="productID"/></logic:present>"  value="<logic:present name="attrAuctionInfor" property="productName"><bean:write name="attrAuctionInfor" property="productName"/></logic:present>">
 													</div>
 												</div>
 												<div class="col-sm-6">
 													<div class="form-group">
-														<label for="pwd">Loại</label> <input type="text"
-														class="form-control" id="inp-category">
+														<label for="pwd">Loại</label>
+									
+											            <select class="form-control" id="inp-category" name = "<logic:present name="attrAuctionInfor" property="categoryID"><bean:write name="attrAuctionInfor" property="categoryID"/></logic:present>" >
+														    <option value="">Chọn</option>
+														    <option value="1">Nhà đất</option>
+														    <option value="2">Điện tử</option>
+														    <option value="3">Hàng tiêu dùng</option>
+														    <option value="4">Khác</option>
+														  </select>
 													</div>
 												</div>
 											</div>
 											<div class="row">
 												<div class="col-sm-12">
 													<label for="email">Mô tả chi tiết</label>
-													<textarea class="form-control" rows="3" id="inp-describe"></textarea>
+													<textarea class="form-control" rows="3" id="inp-describe" ><logic:present name="attrAuctionInfor" property="productDescribe"><bean:write name="attrAuctionInfor" property="productDescribe"/></logic:present></textarea>
 												</div>
 											</div>
 										</div>
@@ -171,32 +189,32 @@
 										</div>
 										<div class="col-sm-4">
 											<div class="form-group">
-												<label for="email">TG bắt đầu</label> <input type="text"
-												class="form-control" id="inp-start-time">
+												<label for="email">TG bắt đầu</label> <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" 
+												class="form-control" id="inp-start-time" value="<logic:present name="attrAuctionInfor" property="startTime"><bean:write name="attrAuctionInfor" property="startTime"/></logic:present>">
 											</div>
 											<div class="form-group">
-												<label for="pwd">TG kết thúc</label> <input type="text"
-												class="form-control" id="inp-end-time">
+												<label for="pwd">TG kết thúc</label> <input type="text" placeholder="YYYY-MM-DD hh:mm:ss" 
+												class="form-control" id="inp-end-time" value="<logic:present name="attrAuctionInfor" property="endTime"><bean:write name="attrAuctionInfor" property="endTime"/></logic:present>">
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div class="form-group">
 												<label for="email">Giá bắt đầu</label> <input type="text"
-												class="form-control" id="inp-start-price">
+												class="form-control" id="inp-start-price" value="<logic:present name="attrAuctionInfor" property="startingPrice"><bean:write name="attrAuctionInfor" property="startingPrice"/></logic:present>">
 											</div>
 											<div class="form-group">
 												<label for="pwd">Bước giá</label> <input type="text"
-												class="form-control" id="inp-step-price">
+												class="form-control" id="inp-step-price" value="<logic:present name="attrAuctionInfor" property="stepPrice"><bean:write name="attrAuctionInfor" property="stepPrice"/></logic:present>">
 											</div>
 										</div>
 										<div class="col-sm-4">
 											<div class="form-group">
 												<label for="email">Giá thị trường</label> <input type="text"
-												class="form-control" id="inp-market-price">
+												class="form-control" id="inp-market-price" value="<logic:present name="attrAuctionInfor" property="marketPrice"><bean:write name="attrAuctionInfor" property="marketPrice"/></logic:present>" >
 											</div>
 											<div class="form-group">
 												<label for="pwd">Tình trạng</label> <input type="text"
-												class="form-control" id="inp-status">
+												class="form-control" id="inp-status" value="<logic:present name="attrAuctionInfor" property="status"><bean:write name="attrAuctionInfor" property="status"/></logic:present>">
 											</div>
 										</div>
 									</div>
@@ -210,11 +228,11 @@
 										<div class="col-sm-4">
 											<div class="form-group">
 												<label for="email">Member thắng đấu giá</label> <input
-												type="text" class="form-control" id="inp-winner-auction">
+												type="text" class="form-control" id="inp-winner-auction" value="<logic:present name="attrAuctionInfor" property="winnerAuction"><bean:write name="attrAuctionInfor" property="winnerAuction"/></logic:present>">
 											</div>
 											<div class="form-group">
 												<label for="pwd">Số tiền</label> <input type="text"
-												class="form-control" id="input-highest-price">
+												class="form-control" id="input-highest-price" value="<logic:present name="attrAuctionInfor" property="highestPrice"><bean:write name="attrAuctionInfor" property="highestPrice"/></logic:present>">
 											</div>
 										</div>
 										<div class="col-sm-8">
@@ -227,6 +245,7 @@
 										</div>
 									</div>
 									<!-- ending order gr -->
+									
 									<!-- starting event gr -->
 									<div class="row">
 										<div class="row" style="margin-bottom: 2%">
@@ -277,7 +296,7 @@
 
 					<script type="text/javascript">
 						$(document).ready(function() {
-
+							
 							disableElements();
 
 							var elementIDarr = [];
@@ -346,10 +365,16 @@
 									case 'BUTTON':
 									$("#" + elementIDarr[i]).removeClass('disabled');
 									break;
+
 									case 'INPUT':
 									$("#" + elementIDarr[i]).prop('disabled', false);
 									break;
+
 									case 'TEXTAREA':
+									$("#" + elementIDarr[i]).prop('disabled', false);
+									break;
+
+									case 'SELECT':
 									$("#" + elementIDarr[i]).prop('disabled', false);
 									break;
 								}
@@ -381,31 +406,294 @@
 					</script>
 
 					<script type="text/javascript">
-						$(document).ready(function() {
-							$("#inp-chofile").change(function(e) {
-								var fileName = e.target.files[0].name;
-								alert('The file "' + fileName + '" has been selected.');
-								$('#my_image').attr('src', 'second.jpg');
-								previewFile();
+					$(document).ready(function() {
+						
+						updateUrlProduct();
+						
+						//  set select for category product
+						var categoryIDofProduct = $("#inp-category").attr("name");
+						$("#inp-category").val(categoryIDofProduct);
+						
+						// load image
+						$("#inp-chofile").change(function(e) {
+							var fileName = e.target.files[0].name;
+							alert('The file "' + fileName + '" has been selected.');
+							$('#my_image').attr('src', 'second.jpg');
+							previewFile();
 							});
-						});
-					</script>
+							
 
-					<script type="text/javascript">
-						function previewFile() {
-							var preview = document.querySelector('#img-product');
-							var file = document.querySelector('#inp-chofile').files[0];
-							var reader = new FileReader();
+						$("#btn-add").click(function(e) {
 
-							reader.addEventListener("load", function() {
-								preview.src = reader.result;
-							}, false);
+							var productName = $("#inp-product-name").val();
+							var productDescrible = $("#inp-describe").val();
+							
+						//	var productImgPath = $("#inp-category").val();
+							var productImgPath = "fix-img";
+							
+							var categoryID = $("#inp-category").val();
+							var startingPrice = $("#inp-start-price").val();
+							var stepPrice = $("#inp-step-price").val();
+							var endTime = $("#inp-end-time").val();
+							var startTime = $("#inp-start-time").val();
+							var marketPrice = $("#inp-market-price").val();
 
-							if (file) {
-								reader.readAsDataURL(file);
+		                    $.ajax({
+		                        type: "POST",
+		    					async: false,
+		                        url: "/Auction/ajaxCreateAuctionAction.do",
+		                        data: "productName="+productName+"&productDescribe="+productDescrible+"&productImgPath="+productImgPath+"&categoryID="+categoryID+"&startingPrice="+startingPrice+"&endTime="+endTime+"&startTime="+startTime+"&stepPrice="+stepPrice+"&marketPrice="+marketPrice+"",
+		    					cache:false,
+		    					dataType:'json',
+		                        success: function(data) {
+									
+		                        	alert(data);
+									var object = data;
+									
+									switch(object.signal)
+									{
+									case 'error':
+										alert(object.message);
+										break;
+										
+									case 'success':
+										alert(object.message);
+										window.location = window.location;
+										break;
+									}
+		                        },
+		                        error: function(e){
+		                        	alert('error');
+		                        }
+		                    });
+						})
+
+						$("#btn-update").click(function(e) {
+							
+							var productID = $("#inp-product-name").attr('name');
+							
+							if(productID == '' || productID.lenght == 0){
+
+								alert('Bạn chưa chọn mặt hàng!')
+								return;
 							}
-						}
+							
+							if(!confirm("Bạn có muốn sửa mặt hàng có ID :"+productID)){
+						   		return;
+						    } 
+							
+							var productName = $("#inp-product-name").val();
+							var productDescrible = $("#inp-describe").val();
+							
+						//	var productImgPath = $("#inp-category").val();
+							var productImgPath = "fix-img";
+							
+							var categoryID = $("#inp-category").val();
+							var startingPrice = $("#inp-start-price").val();
+							var stepPrice = $("#inp-step-price").val();
+							var endTime = $("#inp-end-time").val();
+							var startTime = $("#inp-start-time").val();
+							var marketPrice = $("#inp-market-price").val();
+
+		                    $.ajax({
+		                        type: "POST",
+		    					async: false,
+		                        url: "/Auction/ajaxEditAuctionAction.do",
+
+		                        data: "productID="+productID+"&productName="+productName+"&productDescribe="+productDescrible+"&productImgPath="+productImgPath+"&categoryID="+categoryID+"&startingPrice="+startingPrice+"&endTime="+endTime+"&startTime="+startTime+"&stepPrice="+stepPrice+"&marketPrice="+marketPrice+"",
+		    					
+		                        cache:false,
+		    					dataType:'json',
+
+		                        success: function(data) {
+									
+		                        	alert(data);
+									var object = data;
+									
+									switch(object.signal)
+									{
+									case 'error':
+										alert(object.message);
+										break;
+										
+									case 'success':
+										alert(object.message);
+										window.location = window.location;
+										break;
+									}
+		                        },
+		                        error: function(e){
+		                        	alert('error');
+		                        }
+		                    });
+						})
+						
+						
+						// click delete button
+						$("#btn-delete").click(function(e) {
+							
+							var productID = $("#inp-product-name").attr('name');
+							
+							var productName = $("#inp-product-name").val();
+							
+							alert("productID: "+productID)
+
+							if(productID == '' || productID.lenght == 0){
+
+								alert('Bạn chưa chọn mặt hàng!')
+								return;
+							}
+							
+						    if(!confirm("Bạn có muốn xóa mặt hàng : "+productName)){
+						    	
+						   		return;
+						    } 
+
+						    $.ajax({
+		                        type: "POST",
+		    					async: false,
+		                        url: "/Auction/ajaxDeleteAuctionAction.do",
+		                        data: "productID="+productID,
+		    					cache:false,
+		    					dataType:'json',
+
+		                        success: function(data) {
+									
+		                        	alert(data);
+									var object = data;
+									
+									switch(object.signal)
+									{
+									case 'error':
+										alert(object.message);
+										break;
+										
+									case 'success':
+										alert(object.message);
+										window.location = window.location;
+										break;
+									}
+		                        },
+		                        error: function(e){
+		                        	alert('error');
+		                        }
+		                    });
+						})
+
+						// click stop button
+						$("#btn-stop-auction").click(function(e) {
+							
+							var productID = $("#inp-product-name").attr('name');
+							var productName = $("#inp-product-name").val();
+							
+							alert("productID: "+productID)
+
+							if(productID == '' || productID.lenght == 0){
+
+								alert('Bạn chưa chọn mặt hàng!')
+								return;
+							}
+							
+						    if(!confirm("Bạn có muốn dừng đăng tải mặt hàng : "+productName)){
+						    	
+						   		return;
+						    } 
+
+						    $.ajax({
+		                        type: "POST",
+		    					async: false,
+		                        url: "/Auction/ajaxStopAuctionAction.do",
+		                        data: "productID="+productID,
+		    					cache:false,
+		    					dataType:'json',
+
+		                        success: function(data) {
+									
+		                        	alert(data);
+									var object = data;
+									
+									switch(object.signal)
+									{
+									case 'error':
+										alert(object.message);
+										break;
+										
+									case 'success':
+										alert(object.message);
+										window.location = window.location;
+										break;
+									}
+		                        },
+		                        error: function(e){
+		                        	alert('error');
+		                        }
+		                    });
+						})
+					});
 					</script>
+
+				<script type="text/javascript">
+
+					function updateUrlProduct() {
+						
+						var currentURL = window.location.href;
+						
+						var searchButtonString = "&searchButton=search";
+						
+						if(currentURL.indexOf(searchButtonString) != -1){
+							
+							$("#ul-product-list").each(function() {
+								
+								$(this).find('li').each(function() {
+									
+									$(this).find('a').each(function() {
+										
+										var productID = $(this).attr('href').replace("?","");
+
+										var currentURL = window.location.href;
+										
+										var sxz = currentURL.split("&searchButton=search").pop().trim();
+										
+										if(sxz != '' || sxz.lenght != 0){
+											
+											currentURL = currentURL.replace(sxz,"");
+										}
+																		
+										var searchButtonString = "&searchButton=search";
+
+										var newURL = currentURL+'&'+productID;
+										
+										$(this).attr("href", newURL);				
+
+									});
+								});
+							});
+						
+						}
+					}
+
+				</script>
+
+				<script type="text/javascript">
+				
+					function previewFile() {
+
+						var preview = document.querySelector('#img-product');
+						
+						var file = document.querySelector('#inp-chofile').files[0];
+						
+						var reader = new FileReader();
+
+						reader.addEventListener("load", function() {
+							
+							preview.src = reader.result;
+						}, false);
+
+						if (file) {
+							reader.readAsDataURL(file);
+						}
+					}
+				</script>
 
 				</body>
 				</html>

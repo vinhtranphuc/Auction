@@ -10,7 +10,7 @@ public class ConnectMySQL {
 
 	Connection conection;
 
-	private String url = "jdbc:mysql://localhost/auction";
+	private String url = "jdbc:mysql://localhost/auction?useUnicode=yes&characterEncoding=UTF-8";
 	private String user = "root";
 	private String pass = "";
 
@@ -19,6 +19,7 @@ public class ConnectMySQL {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			conection = DriverManager.getConnection(url, user, pass);
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

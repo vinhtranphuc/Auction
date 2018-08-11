@@ -37,7 +37,6 @@ public class HomeDAO extends ConnectMySQL {
 	AuctionPostBean auctionPostBean;
 	DetailAuctionPostBean detailAuctionPostBean;
 	OrdererBean ordererBean;
-	
 
 	public List<AuctionPostBean> getAuctionCouponList() {
 

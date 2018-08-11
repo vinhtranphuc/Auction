@@ -288,3 +288,14 @@ ul.alert-dropdown {
 .btn-width{
     width: 80px;
 }
+
+
+.alert-custom{
+	margin-left: -25%;
+    position: absolute;
+    z-index: 1;
+    width: 899px;
+    display: none;
+    opacity: 500;
+    margin-top: 8%;
+}

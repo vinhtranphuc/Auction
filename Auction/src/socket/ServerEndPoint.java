@@ -58,7 +58,6 @@ public class ServerEndPoint {
 			memberIDsession = homeBO.getMemberIDSession(userNameSession);
 		}
 		
-		
 		System.out.println("ServerEndPoint session userName: " + userNameSession);
 
 		// save web socket sessions
@@ -162,7 +161,6 @@ public class ServerEndPoint {
 			obj.put(dataKey, data);
 		}	
 	}
-	
 	
 	public void sendDataSingleClient(Session clientSocketSession,Object obj) throws IOException{
 		
