@@ -1,6 +1,7 @@
 package socket;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.apache.commons.lang.StringUtils;
 
 import common.StringProcess;
 import config.PrincipalWithSession;
+import config.Validate;
 import home.model.bo.HomeBO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -39,10 +41,18 @@ public class ServerEndPoint {
 	
 	private String memberIDsession;
 	
+	String loginFlag = "false";
+	
 	private JSONObject obj;
 	
 	private JSONArray jsonArray;
-
+	
+	private Float highestPriceForProduct;
+	private Float stepPriceForProduct;
+	
+	private String memberIDwinner;
+	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	@OnOpen
 	public void handleOpen(Session clientSocketSession) throws IOException {
@@ -54,18 +64,20 @@ public class ServerEndPoint {
 		
 		homeBO = new HomeBO();
 		
-		if(!StringUtils.equals("", userNameSession) && userNameSession != null){
+		if(Validate.isExistsData(userNameSession)){
 			memberIDsession = homeBO.getMemberIDSession(userNameSession);
+			loginFlag = "true";
 		}
 		
 		System.out.println("ServerEndPoint session userName: " + userNameSession);
+		System.out.println("ServerEndPoint session memberIDsession: " + memberIDsession);
 
 		// save web socket sessions
 		allSocketSession.add(clientSocketSession);
 
 		homeBO = new HomeBO();
 
-		createObjectRes("severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
+		createObjectRes(loginFlag,"severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
 		
 		sendDataSingleClient(clientSocketSession,obj);
 	}
@@ -74,10 +86,18 @@ public class ServerEndPoint {
 	public void handleMessage(String message, Session clientSocketSession) throws IOException, EncodeException {
 
 		System.out.println("Input message: " + message);
+		
+		if(StringUtils.equals("", memberIDsession) || memberIDsession == null){
+			
+			createObjectRes(loginFlag,"orderFail", "messsage", "Bạn chưa đăng nhập");
+			sendDataSingleClient(clientSocketSession, obj);
+			
+			return;
+		}
 
 		if ("severUpdateAuctionList".equals(message)) {
 			
-			createObjectRes("severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
+			createObjectRes(loginFlag,"severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
 			
 			sendDataAllClient(obj);
 
@@ -88,7 +108,7 @@ public class ServerEndPoint {
 		String signal = "";
 		String productIDrequest = "";
 		String orderPriceRequest = "";
-
+		String productNameSearch = "";
 		try {
 			signal = parts[0];
 			productIDrequest = parts[1];
@@ -96,9 +116,21 @@ public class ServerEndPoint {
 		} catch (Exception e) {
 		}
 		
+		if("searchProduct".equals(signal)) {
+			
+			productNameSearch = parts[2];
+			
+			createObjectRes(loginFlag,"severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList(productNameSearch));
+			
+			sendDataSingleClient(clientSocketSession,obj);
+
+			return;
+			
+		}
+		
 		if ("clientLoadOrderListSingleProduct".equals(signal) && !"".equals(productIDrequest)) {
 			
-			createObjectRes("severResponseOrderListSingleProduct","orderListSingleProduct",homeBO.getOrderList(productIDrequest));
+			createObjectRes(loginFlag,"severResponseOrderListSingleProduct","orderListSingleProduct",homeBO.getOrderList(productIDrequest));
 			sendDataSingleClient(clientSocketSession, StringProcess.toJSONArrayString(obj));
 
 			return;
@@ -106,28 +138,66 @@ public class ServerEndPoint {
 		
 		if(StringUtils.equals("", memberIDsession) || memberIDsession == null){
 			
-			createObjectRes("orderFail", "messsage", "Bạn chưa đăng nhập");
+			createObjectRes(loginFlag,"orderFail", "messsage", "Bạn chưa đăng nhập");
 			sendDataSingleClient(clientSocketSession, obj);
 			
 			return;
 		}
 		
 		if ("cilentOrderPrice".equals(signal) && !"".equals(productIDrequest)
-				&& StringProcess.isNumeric(orderPriceRequest)
-				&& homeBO.saveOrderPrice(memberIDsession, productIDrequest, orderPriceRequest)) {
+				&& StringProcess.isNumeric(orderPriceRequest)) {
+			
+			stepPriceForProduct = homeBO.getStepPriceBaseProduct(productIDrequest);
+			System.out.println("stepPriceForProduct :"+stepPriceForProduct);
+			
+			highestPriceForProduct = homeBO.getHighestPrice(productIDrequest);
+			System.out.println("highestPriceForProduct :"+highestPriceForProduct);
+			
+			Float allowPrice = stepPriceForProduct + highestPriceForProduct;
+			
+			memberIDwinner = homeBO.getMemberIDWinner(productIDrequest);
+			
+/*			if(sdf.parse(startDate).before(sdf.parse(endDate))){
+				
+			}*/
+			
+			
+			if(StringUtils.equals(memberIDsession, memberIDwinner)) {
+				
+				createObjectRes(loginFlag,"orderFail", "messsage", "Bạn không được đặt 2 lần liên tiếp!");
+				
+				sendDataSingleClient(clientSocketSession, obj);
+				
+				return;
+			}
+			
 
-			createObjectRes("orderSuccess", "messsage", "Đặt thành công!");
-			sendDataSingleClient(clientSocketSession, obj);
+			if(Double.parseDouble(orderPriceRequest) < (allowPrice)){
+				
+				createObjectRes(loginFlag,"orderFail", "messsage", "Giá không hợp lệ");
+				
+				sendDataSingleClient(clientSocketSession, obj);
+				
+				return;
+			}
+			
+			if (homeBO.saveOrderPrice(memberIDsession, productIDrequest, orderPriceRequest)) {
 
-			createObjectRes("severResponseOrderListSingleProduct", "orderListSingleProduct",
-					homeBO.getOrderList(productIDrequest));	
-			sendDataAllClient(obj);
+				createObjectRes(loginFlag,"orderSuccess", "messsage", "Đặt thành công!");
+				
+				sendDataSingleClient(clientSocketSession, obj);
+
+				createObjectRes(loginFlag,"severResponseOrderListSingleProduct", "orderListSingleProduct",
+						homeBO.getOrderList(productIDrequest));
+
+				sendDataAllClient(obj);
+			}
 
 			return;
 
 		} else {
 
-			createObjectRes("orderFail", "messsage", "Thất bại!");
+			createObjectRes(loginFlag,"orderFail", "messsage", "Thất bại!");
 			sendDataSingleClient(clientSocketSession, obj);
 			return;
 		}
@@ -144,10 +214,11 @@ public class ServerEndPoint {
 		t.printStackTrace();
 	}
 	
-	public void createObjectRes(String signal,String dataKey,Object data) {
+	public void createObjectRes(String loginFlag,String signal,String dataKey,Object data) {
 		
 		obj = new JSONObject();
 		
+		obj.put("loginFlag", loginFlag);
 		obj.put("signal", signal);
 		
 		if(data instanceof List) {
@@ -175,6 +246,15 @@ public class ServerEndPoint {
 			if (socketSessionElement.isOpen()) {
 				socketSessionElement.getBasicRemote().sendText(StringProcess.toJSONArrayString(obj));
 			}
+		}
+	}
+	
+	public void sendAuctionListAllClient() {
+		createObjectRes(loginFlag,"severResponseAllAuctionList","auctionList",homeBO.getAuctionCouponList());
+		try {
+			sendDataAllClient(obj);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 

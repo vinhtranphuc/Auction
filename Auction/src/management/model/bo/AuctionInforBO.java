@@ -29,4 +29,12 @@ public class AuctionInforBO {
 	public List<ProductBean> getProductsSearch(String productNameSearch, String postDateSearch, String statusSearch,String memberID) {
 		return auctionInforDAO.getProductsSearch(productNameSearch,postDateSearch,statusSearch,memberID);
 	}
+
+	public String getNewProductID(String memberID) {
+		return auctionInforDAO.getNewProductID(memberID);
+	}
+
+	public String getNewMemberID() {
+		return auctionInforDAO.getNewMember();
+	}
 }

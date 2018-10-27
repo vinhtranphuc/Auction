@@ -1,6 +1,10 @@
 package form;
 
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
+
+import management.model.bean.MemberBean;
 
 public class MemberInforForm extends ActionForm {
 	
@@ -17,6 +21,22 @@ public class MemberInforForm extends ActionForm {
 	private String phone;
 	private String image;
 	
+	private MemberBean memberInfor;
+
+	public MemberBean getMemberInfor() {
+		return memberInfor;
+	}
+	public void setMemberInfor(MemberBean memberInfor) {
+		this.memberInfor = memberInfor;
+	}
+	private List<MemberBean> memberList;
+	
+	public List<MemberBean> getMemberList() {
+		return memberList;
+	}
+	public void setMemberList(List<MemberBean> memberList) {
+		this.memberList = memberList;
+	}
 	public String getMemberID() {
 		return memberID;
 	}

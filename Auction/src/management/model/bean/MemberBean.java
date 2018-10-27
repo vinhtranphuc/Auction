@@ -11,6 +11,9 @@ public class MemberBean {
 	private String phone;
 	private String image;
 	
+	private String userName;
+	private String password;
+	
 	public String getMemberID() {
 		return memberID;
 	}
@@ -59,5 +62,18 @@ public class MemberBean {
 	public void setImage(String image) {
 		this.image = image;
 	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
 
 }

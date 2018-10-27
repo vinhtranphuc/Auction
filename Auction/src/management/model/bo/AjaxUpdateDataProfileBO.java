@@ -8,6 +8,7 @@ public class AjaxUpdateDataProfileBO {
 	AjaxUpdateDataProfileDAO ajaxUpdateDataProfileDAO;
 
 	public boolean editMemberInfor(MemberBean memberBean) {
+		ajaxUpdateDataProfileDAO = new AjaxUpdateDataProfileDAO();
 		return ajaxUpdateDataProfileDAO.editMemberInfor(memberBean);
 	}
 

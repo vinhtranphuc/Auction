@@ -92,6 +92,8 @@ public class AjaxUpdateDataAuctionDAO extends ConnectMySQL {
 			pstmt =  getPrepareStatement(query);
 			rs = pstmt.executeQuery();
 			while(rs.next()){
+				if(rs.getString("PRODUCT_ID")==null) 
+					return "1";
 				return Integer.parseInt(rs.getString("PRODUCT_ID"))+1+"";
 			}
 		} catch (SQLException e) {
@@ -105,8 +107,8 @@ public class AjaxUpdateDataAuctionDAO extends ConnectMySQL {
 	public static void main(String[] args) {
 		
 		AjaxUpdateDataAuctionDAO a = new AjaxUpdateDataAuctionDAO();
-		
-		DetailAuctionInforBean detailAuctionInforBean = new DetailAuctionInforBean();
+		System.out.println(a.getMaxProductID());
+		/*DetailAuctionInforBean detailAuctionInforBean = new DetailAuctionInforBean();
 		
 		detailAuctionInforBean.setProductID("1");
 		detailAuctionInforBean.setProductName("vvvvv");
@@ -122,7 +124,7 @@ public class AjaxUpdateDataAuctionDAO extends ConnectMySQL {
 		detailAuctionInforBean.setStartTime("2018-08-10 05:10:20");
 		detailAuctionInforBean.setMarketPrice("231232");
 		
-		a.editAuction(detailAuctionInforBean);
+		a.editAuction(detailAuctionInforBean);*/
 	
 	}
 

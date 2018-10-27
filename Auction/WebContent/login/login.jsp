@@ -66,7 +66,7 @@
 
 						<div class="wrap-input100 validate-input m-b-50"
 							data-validate="chưa nhập mật khẩu">
-							<html:text property="password" styleClass="input100"></html:text>
+							<html:password property="password" styleClass="input100"></html:password>
 							<span class="focus-input100" data-placeholder="mật khẩu"></span>
 						</div>
 

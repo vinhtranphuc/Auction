@@ -59,8 +59,8 @@ public class AjaxEditMemberInforAction extends Action {
 		userNameSession = (String) httpSession.getAttribute("userName");
 				
 		auctionInforBO = new AuctionInforBO();
-		memberID = auctionInforBO.getMemberIdBasedUserName(userNameSession);
 		
+		memberID = memberInforForm.getMemberID();
 		memberName = memberInforForm.getMemberName();
 		birthDate = memberInforForm.getBirthDate();
 		address = memberInforForm.getAddress();
@@ -69,7 +69,7 @@ public class AjaxEditMemberInforAction extends Action {
 		phone = memberInforForm.getPhone();
 		image = memberInforForm.getImage();
 		
-		if (!Validate.isExistsData(memberName) || !Validate.isExistsData(birthDate)
+		if (!Validate.isExistsData(memberID) || !Validate.isExistsData(memberName) || !Validate.isExistsData(birthDate)
 				|| !Validate.isExistsData(address) || !Validate.isExistsData(identication)
 				|| !Validate.isExistsData(email) || !Validate.isExistsData(phone)|| !Validate.isExistsData(image)) {
 			
@@ -79,6 +79,17 @@ public class AjaxEditMemberInforAction extends Action {
 		}
 		
 		memberBean = new MemberBean();
+		
+		memberBean.setMemberID(memberID);
+		memberBean.setMemberName(memberName);
+		memberBean.setBirthDate(birthDate);
+		memberBean.setAddress(address);
+		memberBean.setIdentication(identication);
+		memberBean.setEmail(email);
+		memberBean.setPhone(phone);
+		memberBean.setImage(image);
+		
+		ajaxUpdateDataProfileBO = new AjaxUpdateDataProfileBO();
 		
 		if(ajaxUpdateDataProfileBO.editMemberInfor(memberBean)){
 			

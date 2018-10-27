@@ -42,6 +42,10 @@ public class ProfileAction extends Action {
 	
 	private ProfileForm profileForm;
 	
+	private String adminFlag;
+	
+	private String memberIDSearch;
+	
 	@Override
 	public ActionForward execute(ActionMapping mapping, ActionForm form, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
@@ -53,14 +57,37 @@ public class ProfileAction extends Action {
 		userNameSession = (String) httpSession.getAttribute("userName");
 		
 		auctionInforBO = new AuctionInforBO();
-		memberID = auctionInforBO.getMemberIdBasedUserName(userNameSession);
-
-		if (!Validate.isExistsData(memberID)) {
+		
+		profileBO = new ProfileBO();
+		
+		if (!Validate.isExistsData(userNameSession)) {
 			
 			return mapping.findForward("login");
 		}
-		profileBO = new ProfileBO();
-		profileForm.setUserList(profileBO.getUserList());
+		
+		memberID = auctionInforBO.getMemberIdBasedUserName(userNameSession);
+		
+		adminFlag = profileBO.getAdminFlag(memberID);
+		
+		if(Validate.isExistsData(adminFlag)){
+			
+			profileForm.setUserList(profileBO.getUserList());
+			System.out.println(adminFlag);
+			
+		}
+		
+		memberIDSearch = profileForm.getMemberIDSearch();
+		
+		if(Validate.isExistsData(memberIDSearch) && Validate.isExistsData(adminFlag) ){
+			
+			profileForm.setMemberInfor(profileBO.getMemberInfor(memberIDSearch));
+			profileForm.setAdminFlag(adminFlag);
+			
+			return mapping.findForward("profile");
+		}
+		
+		profileForm.setAdminFlag(adminFlag);
+		profileForm.setMemberInfor(profileBO.getMemberInfor(memberID));
 		
 		return mapping.findForward("profile");
 	}

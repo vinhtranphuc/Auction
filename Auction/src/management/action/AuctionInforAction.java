@@ -12,7 +12,9 @@ import org.apache.struts.action.ActionMapping;
 
 import config.Validate;
 import form.AuctionInforForm;
+import form.FileUploadForm;
 import management.model.bo.AuctionInforBO;
+import socket.ServerEndPoint;
 
 /**
  * StringProcess.java
@@ -62,6 +64,7 @@ public class AuctionInforAction extends Action {
 			
 			return mapping.findForward("login");
 		}
+		
 
 		auctionInforForm = (AuctionInforForm) form;
 		
@@ -107,8 +110,9 @@ public class AuctionInforAction extends Action {
 
 			// get product base on productID & memberID
 			auctionInforForm.setDetailAuctionInforBean(auctionInforBO.getDetailAuctionInfor(productID, memberID));
+			
 		}
-
+			
 		return mapping.findForward("aucitionInfo");
 	}
 	
