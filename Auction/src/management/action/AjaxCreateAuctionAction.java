@@ -117,7 +117,7 @@ public class AjaxCreateAuctionAction extends Action {
 			return null;
 		}
 
-		responseMessage(response, "success", "Lỗi");
+		responseMessage(response, "success", "Lỗi hệ thống");
 		ServerEndPoint s = new ServerEndPoint();
 		s.sendAuctionListAllClient();
 		return null;

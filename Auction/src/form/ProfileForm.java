@@ -53,5 +53,4 @@ public class ProfileForm extends ActionForm{
 	public void setUserList(List<UserBean> userList) {
 		this.userList = userList;
 	}
-	
 }

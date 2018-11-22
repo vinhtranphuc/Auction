@@ -88,7 +88,7 @@ public class ServerEndPoint {
 		System.out.println("Input message: " + message);
 		
 		if(StringUtils.equals("", memberIDsession) || memberIDsession == null){
-			
+
 			createObjectRes(loginFlag,"orderFail", "messsage", "Bạn chưa đăng nhập");
 			sendDataSingleClient(clientSocketSession, obj);
 			
@@ -155,12 +155,9 @@ public class ServerEndPoint {
 			
 			Float allowPrice = stepPriceForProduct + highestPriceForProduct;
 			
+			System.out.println("allowPrice "+allowPrice);
+			
 			memberIDwinner = homeBO.getMemberIDWinner(productIDrequest);
-			
-/*			if(sdf.parse(startDate).before(sdf.parse(endDate))){
-				
-			}*/
-			
 			
 			if(StringUtils.equals(memberIDsession, memberIDwinner)) {
 				
@@ -170,7 +167,6 @@ public class ServerEndPoint {
 				
 				return;
 			}
-			
 
 			if(Double.parseDouble(orderPriceRequest) < (allowPrice)){
 				

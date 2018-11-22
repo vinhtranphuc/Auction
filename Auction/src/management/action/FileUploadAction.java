@@ -73,6 +73,7 @@ public class FileUploadAction extends org.apache.struts.action.Action {
         String fileName = "";
         
         String categoryImg = "";
+
         try {
             formFile = uploadForm.getFile();
             
@@ -118,6 +119,5 @@ public class FileUploadAction extends org.apache.struts.action.Action {
 
     public static void main(String[] args) {
     	System.out.println(System.getProperty("user.dir")+"WebContent\\images\\member\\");
-
 	}
 }
